@@ -1,6 +1,6 @@
 library('Rcpp')
 library("mclust")
-sourceCpp("/storage/home/g/gzx103/scratch/sc/funs_rcpp5_noeta.cpp") 
+sourceCpp("/storage/home/gzx103/group/software/SCM/funs_rcpp5_noeta.cpp") 
 
 
 ############################################################################################################
@@ -28,8 +28,8 @@ mle <- function(y,x,parg0,parc0,iter){
     eparg <- matrix(NA,nrow=dim(parg0)[1], ncol=dim(parg0)[2])
     
     for (ic in 1:nc){
-      temp <- nlminb(start = parc0[ic], objective = get_nloglik_c, parg_all= parg0, y_c=y[ic,], matx_c=x[ic,], lower = 0.0000001, upper = 1000000)
-      temp <- nlminb(start = parc0[ic], objective = get_nloglik_c, parg_all= parg0, y_c=y[ic,], matx_c=x[ic,], lower = 0.0000001, upper = 1000000)
+      #temp <- nlminb(start = parc0[ic], objective = get_nloglik_c, parg_all= parg0, y_c=y[ic,], matx_c=x[ic,], lower = 0.0000001, upper = 1000000)
+      temp <- optim(par = parc0[ic], fn = get_nloglik_c, parg_all= parg0, y_c=y[ic,], matx_c=x[ic,], lower = 0.0000001, upper = 1000000)
       eparc[ic] <- temp$par
     }
     parc0 <- eparc
